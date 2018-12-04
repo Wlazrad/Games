@@ -1,6 +1,7 @@
 package Checkers;
 
 import javafx.application.Application;
+import javafx.css.Match;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,7 +48,22 @@ public class CheckerApp extends Application {
         }
         return root;
     }
+private MoveResult tryMove(Piece piece, int newX, int newY) {
+    if (board[newX][newY].hasPiece() || (newX + newY) % 2 == 0) {
+        return new MoveResult(MoveType.NONE);
+    }
+    int x0 =toBoard(piece.getOldX());
+    int y0 = toBoard(piece.getOldY());
+    if (Math.abs(newX-x0)==1&& newY-y0==piece.getType().moveDir){
+        return new MoveResult(MoveType.NORMAL);
+    }else if (Match.abs(newX-x0)==2&&newY-y0==piece.getType().moveDir*2){
+        int x1 =x0 + (newX-x0)/2;
 
+    }
+}
+private int toBoard(double pixel){
+        return (int)(pixel+TITLE_SIZE/2)/TITLE_SIZE;
+}
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -58,7 +74,9 @@ primaryStage.show();
     }
     private Piece makePiece(PieceType type, int x, int y){
         Piece piece = new Piece (type , x, y);
+        piece.setOnMouseDragReleased(e->{
 
+        });
         return piece;
     }
     public static void main(String[] args) {launch(args);}
